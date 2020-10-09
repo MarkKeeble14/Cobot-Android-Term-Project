@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Cobot</string>
+    <string name="cobot_intro">Hey, my name is Cobot!</string>
+    <string name="nav_home">Home</string>
+    <string name="nav_chat">Chat</string>
+    <string name="nav_schedule">Schedule</string>
+    <string name="chatbox_send_message_hint">What\'s your question?</string>
+    <string name="profile_icon_description">A Profile Icon</string>
 </resources>
