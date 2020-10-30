@@ -10,4 +10,6 @@
     <string name="password">Password</string>
     <string name="sign_up">Sign Up</string>
     <string name="sign_in">Log-in</string>
+    <string name="sign_out">Log-out</string>
+    <string name="no_user_signed_in">No user signed in</string>
 </resources>

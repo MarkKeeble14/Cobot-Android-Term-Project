@@ -10,51 +10,18 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible" >
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
-
-            <EditText
-                android:id="@+id/email_field"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/email" />
-
-            <EditText
-                android:id="@+id/password_field"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/password"
-                android:inputType="textPassword" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/sign_up" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/sign_in" />
-
-        </LinearLayout>
-
-    </FrameLayout>
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:layout_above="@+id/chat_box" >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Temporary Authentication Button"
+                android:onClick="goToAuth" />
 
             <ImageView
                 android:id="@+id/person_icon"
@@ -63,7 +30,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:src="@drawable/person_icon"
-                android:contentDescription="@string/profile_icon_description"/>
+                android:contentDescription="@string/profile_icon_description" />
 
             <TextView
                 android:id="@+id/cobot_intro"
@@ -87,18 +54,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
-            <TextView
-                style="@style/SentMessage"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Test Question" />
-
-            <TextView
-                style="@style/ReceivedMessage"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Test Response" />
 
         </LinearLayout>
 
