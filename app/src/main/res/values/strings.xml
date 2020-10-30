@@ -6,4 +6,8 @@
     <string name="nav_schedule">Schedule</string>
     <string name="chatbox_send_message_hint">What\'s your question?</string>
     <string name="profile_icon_description">A Profile Icon</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="sign_in">Log-in</string>
 </resources>
