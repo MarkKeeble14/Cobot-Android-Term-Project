@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,6 +16,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -59,6 +62,26 @@ public class AuthenticationActivity extends AppCompatActivity {
         emailField = (EditText) findViewById(R.id.email_field);
         passwordField = (EditText) findViewById(R.id.password_field);
         accDisplay = (TextView) findViewById(R.id.temp_account_display);
+
+        BottomNavigationView bottomNav = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch(item.getItemId()) {
+                    case R.id.nav_home:
+                        Intent iHome = new Intent(AuthenticationActivity.this, StatsActivity.class);
+                        startActivity(iHome);
+                        break;
+                    case R.id.nav_chat:
+                        Intent iChat = new Intent(AuthenticationActivity.this, ChatActivity.class);
+                        startActivity(iChat);
+                        break;
+                    case R.id.nav_auth:
+                        break;
+                }
+                return false;
+            }
+        });
     }
 
     public void onStart() {

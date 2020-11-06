@@ -1,15 +1,13 @@
 package com.example.cobot;
 
-import android.content.Context;
-import android.os.Bundle;
-
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
 
-import android.util.Log;
-import android.view.LayoutInflater;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,51 +18,54 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.json.JSONObject;
 
-public class Fragment1 extends Fragment {
-
+public class StatsActivity extends AppCompatActivity {
     private static final String STATS_URL = "https://api.covid19api.com/summary";
-
-    // context for fragments
-    Context context;
 
     // UI Views
     private ProgressBar progressBar;
     private TextView totalCasesTv, newCasesTv, totalDeathsTv, newDeathsTv, totalRecoveredTv, newRecoveredTv;
 
-    public Fragment1() {
-        // Required empty public constructor
-    }
-
     @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        this.context = context;
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_1, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_stats);
 
         // init UI Views
-        progressBar = view.findViewById(R.id.progressBar);
-        totalCasesTv = view.findViewById(R.id.totalCasesTv);
-        newCasesTv = view.findViewById(R.id.newCasesTv);
-        totalDeathsTv = view.findViewById(R.id.totalDeathsTv);
-        newDeathsTv = view.findViewById(R.id.newDeathsTv);
-        totalRecoveredTv = view.findViewById(R.id.totalRecoveredTv);
-        newRecoveredTv = view.findViewById(R.id.newRecoveredTv);
+        progressBar = findViewById(R.id.progressBar);
+        totalCasesTv = findViewById(R.id.totalCasesTv);
+        newCasesTv = findViewById(R.id.newCasesTv);
+        totalDeathsTv = findViewById(R.id.totalDeathsTv);
+        newDeathsTv = findViewById(R.id.newDeathsTv);
+        totalRecoveredTv = findViewById(R.id.totalRecoveredTv);
+        newRecoveredTv = findViewById(R.id.newRecoveredTv);
 
         progressBar.setVisibility(View.GONE);
 
         loadHomeData();
 
-
-        return view;
+        BottomNavigationView bottomNav = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch(item.getItemId()) {
+                    case R.id.nav_home:
+                        break;
+                    case R.id.nav_chat:
+                        Intent iChat = new Intent(StatsActivity.this, ChatActivity.class);
+                        startActivity(iChat);
+                        break;
+                    case R.id.nav_auth:
+                        Intent iAuth = new Intent(StatsActivity.this, AuthenticationActivity.class);
+                        startActivity(iAuth);
+                        break;
+                }
+                return false;
+            }
+        });
     }
 
     @Override
@@ -89,14 +90,13 @@ public class Fragment1 extends Fragment {
             public void onErrorResponse(VolleyError error) {
                 // some error occurred, hide progress, show error message
                 progressBar.setVisibility(View.GONE);
-                Toast.makeText(context, ""+error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(StatsActivity.this, "" + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
         // add request to queue
-        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        RequestQueue requestQueue = Volley.newRequestQueue(StatsActivity.this);
         requestQueue.add(stringRequest);
-
     }
 
     private void handleResponse(String response) {
@@ -122,8 +122,6 @@ public class Fragment1 extends Fragment {
             totalRecoveredTv.setText(totalRecovered);
             newRecoveredTv.setText(newRecovered);
 
-            // Check, print datas
-
             System.out.println("Total confirmed: " + totalConfirmed);
             System.out.println("New confirmed: " + newConfirmed);
             System.out.println("New deaths: " + newDeaths);
@@ -131,15 +129,13 @@ public class Fragment1 extends Fragment {
             System.out.println("New recovered: " + newRecovered);
             System.out.println("Total recovered: " + totalRecovered);
 
-
             // hide progess
             progressBar.setVisibility(View.GONE );
 
         }
         catch (Exception e) {
             progressBar.setVisibility(View.GONE);
-            Toast.makeText(context, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(StatsActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
-
 }

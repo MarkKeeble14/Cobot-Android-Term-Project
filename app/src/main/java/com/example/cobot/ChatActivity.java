@@ -50,13 +50,13 @@ public class ChatActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch(item.getItemId()) {
                     case R.id.nav_home:
-                        Intent iMain = new Intent(ChatActivity.this, MainActivity.class);
+                        Intent iMain = new Intent(ChatActivity.this, StatsActivity.class);
                         startActivity(iMain);
                         break;
                     case R.id.nav_chat:
                         break;
-                    case R.id.nav_schedule:
-                        Intent iSched = new Intent(ChatActivity.this, ScheduleActivity.class);
+                    case R.id.nav_auth:
+                        Intent iSched = new Intent(ChatActivity.this, AuthenticationActivity.class);
                         startActivity(iSched);
                         break;
                 }
