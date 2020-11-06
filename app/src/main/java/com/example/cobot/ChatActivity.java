@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -42,6 +43,26 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
 
         input = (EditText) findViewById(R.id.chat_box_send_message);
+
+        BottomNavigationView bottomNav = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch(item.getItemId()) {
+                    case R.id.nav_home:
+                        Intent iMain = new Intent(ChatActivity.this, MainActivity.class);
+                        startActivity(iMain);
+                        break;
+                    case R.id.nav_chat:
+                        break;
+                    case R.id.nav_schedule:
+                        Intent iSched = new Intent(ChatActivity.this, ScheduleActivity.class);
+                        startActivity(iSched);
+                        break;
+                }
+                return false;
+            }
+        });
     }
 
     public void processMessageSent(View view) {
