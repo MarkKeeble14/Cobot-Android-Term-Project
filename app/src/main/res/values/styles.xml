@@ -6,13 +6,31 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
-
-
-<!--    theme without actionbar-->
+    <!--    theme without actionbar-->
     <style name="AppThemeNoActionBar" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
     </style>
-</resources>
+    <!-- Chatting styles -->
+    <style name="Heading">
+        <item name="android:gravity">center</item>
+    </style>
 
-<!--create menu for bottom navigation-->
+    <style name="SentMessage">
+        <item name="android:gravity">right</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_marginBottom">5dp</item>
+    </style>
+
+    <style name="ReceivedMessage">
+        <item name="android:gravity">left</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_marginBottom">5dp</item>
+    </style>
+
+    <style name="FunctionNavigator">
+        <item name="android:gravity">center</item>
+    </style>
+</resources>

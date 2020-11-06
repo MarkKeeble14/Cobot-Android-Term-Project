@@ -1,5 +1,16 @@
 <resources>
     <string name="app_name">Cobot</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="cobot_intro">Hey, my name is Cobot!</string>
+    <string name="nav_home">Home</string>
+    <string name="nav_chat">Chat</string>
+    <string name="nav_schedule">Schedule</string>
+    <string name="chatbox_send_message_hint">What\'s your question?</string>
+    <string name="profile_icon_description">A Profile Icon</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="sign_in">Log-in</string>
+    <string name="sign_out">Log-out</string>
+    <string name="no_user_signed_in">No user signed in</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
