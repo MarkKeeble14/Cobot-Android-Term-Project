@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     private BottomNavigationView navigationView;
 
     // Fragments
-    private Fragment Fragment1, Fragment2;
+    private Fragment Fragment1, Fragment2, Fragment3, Fragment4;
     private Fragment activeFragment;
     private FragmentManager fragmentManager;
 
@@ -72,7 +72,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         titleTv.setText("Home");
         fragmentManager.beginTransaction().hide(activeFragment).show(Fragment1).commit();
         activeFragment = Fragment1;
-
     }
 
     private void loadStatsFragment() {
