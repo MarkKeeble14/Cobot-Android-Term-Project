@@ -132,7 +132,6 @@ public class StatsActivity extends AppCompatActivity {
 
             // hide progess
             progressBar.setVisibility(View.GONE );
-
         }
         catch (Exception e) {
             progressBar.setVisibility(View.GONE);
