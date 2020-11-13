@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -103,7 +104,7 @@ public class StatsActivity extends AppCompatActivity {
         try {
             // since we know, our response is in JSON Object so convert it to object
             JSONObject jsonObject = new JSONObject(response);
-
+            Log.d("response", jsonObject.toString());
             JSONObject globalJo = jsonObject.getJSONObject("Global");
 
             // get data from it

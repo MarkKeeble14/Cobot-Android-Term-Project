@@ -13,4 +13,12 @@
     <string name="sign_out">Log-out</string>
     <string name="no_user_signed_in">No user signed in</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="sent_message_sender">Me</string>
+    <string name="cobot_name">Cobot</string>
+    <string-array name="error_responses">
+        <item>Sorry! I don\'t know what you\'re asking for.</item>
+        <item>Please make sure you enter something I know how to respond to!</item>
+        <item>I\'m having a hard time understanding you. Can you try to make sure you don\'t mumble?</item>
+        <item>Man what are you saying?</item>
+    </string-array>
 </resources>
