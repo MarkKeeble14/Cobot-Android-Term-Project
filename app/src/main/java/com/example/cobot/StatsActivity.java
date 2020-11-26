@@ -3,7 +3,6 @@ package com.example.cobot;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,11 +19,22 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class StatsActivity extends AppCompatActivity {
     private static final String STATS_URL = "https://api.covid19api.com/summary";
+
+
+    // Static string variables
+    static String totalConfirmed, newConfirmed, totalDeaths, newDeaths, totalRecovered, newRecovered;
+    static String arrayData;
+
 
     // UI Views
     private ProgressBar progressBar;
@@ -100,20 +110,20 @@ public class StatsActivity extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
-    private void handleResponse(String response) {
+    public void handleResponse(String response) {
+
         try {
-            // since we know, our response is in JSON Object so convert it to object
             JSONObject jsonObject = new JSONObject(response);
             Log.d("response", jsonObject.toString());
             JSONObject globalJo = jsonObject.getJSONObject("Global");
 
             // get data from it
-            String newConfirmed = globalJo.getString("NewConfirmed");
-            String totalConfirmed = globalJo.getString("TotalConfirmed");
-            String newDeaths = globalJo.getString("NewDeaths");
-            String totalDeaths = globalJo.getString("TotalDeaths");
-            String newRecovered = globalJo.getString("NewRecovered");
-            String totalRecovered = globalJo.getString("TotalRecovered");
+            newConfirmed = globalJo.getString("NewConfirmed");
+            totalConfirmed = globalJo.getString("TotalConfirmed");
+            newDeaths = globalJo.getString("NewDeaths");
+            totalDeaths = globalJo.getString("TotalDeaths");
+            newRecovered = globalJo.getString("NewRecovered");
+            totalRecovered = globalJo.getString("TotalRecovered");
 
             // set data
             totalCasesTv.setText(totalConfirmed);
@@ -123,14 +133,36 @@ public class StatsActivity extends AppCompatActivity {
             totalRecoveredTv.setText(totalRecovered);
             newRecoveredTv.setText(newRecovered);
 
-            System.out.println("Total confirmed: " + totalConfirmed);
-            System.out.println("New confirmed: " + newConfirmed);
-            System.out.println("New deaths: " + newDeaths);
-            System.out.println("Total deaths: " + totalDeaths);
-            System.out.println("New recovered: " + newRecovered);
-            System.out.println("Total recovered: " + totalRecovered);
+            // Load data
+            JSONObject jsonObject2 = new JSONObject(response);
+            JSONArray jsonArray = jsonObject2.getJSONArray("Countries");
 
-            // hide progess
+            // * API WEBSITE https://api.covid19api.com/summary *
+            // Change json array to gson
+            Gson gson = new Gson();
+            // String type Arraydata
+            arrayData = gson.toJson(jsonArray.get(30)); // 30th object from the array = Canada
+
+//            for (int i = 0; i < jsonArray.length(); i++) {
+//                for (int j = 0; jsonArray. j++ ) {
+//
+//                }
+//            }
+
+
+//            GsonBuilder gsonBuilder = new GsonBuilder();
+//            gsonBuilder.setDateFormat("dd/MM/yyyy hh:mm a");
+//            Gson gson = gsonBuilder.create();
+//
+//            // Get data into ArrayList
+//            for (int i = 0; i < jsonArray.length(); i++) {
+//            }
+//
+//            for (int i = 0; i < 1; i++) {
+//                country = statArrayList.get(i);
+//            }
+
+            //  hide progess
             progressBar.setVisibility(View.GONE );
         }
         catch (Exception e) {

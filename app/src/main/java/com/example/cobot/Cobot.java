@@ -16,7 +16,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Random;
 
-public class Cobot {
+public class Cobot extends StatsActivity {
     Random r = new Random();
     final int MIN_RESPONSE_TIME = 100;
     final int MAX_RESPONSE_TIME = 2000;
@@ -97,11 +97,17 @@ public class Cobot {
     }
 
     private String retrieveGlobalData() {
-        return "GLOBAL_API_REQ.";
+        String globalData = "Total Confirmed: " + totalConfirmed + "\n"
+                + "New Confirmed: " + newConfirmed + "\n"
+                + "Total Deaths: " + totalDeaths + "\n"
+                + "New Deaths:  " + newDeaths + "\n"
+                + "Total Recovered: " + totalRecovered + "\n"
+                + "New Recovered: " + newRecovered;
+        return globalData;
     }
 
     private String retrieveCountrySpecificData() {
-        return "LOCALIZED_API_REQ";
+        return arrayData + "\n";
     }
 
     private void addMessageToFirebase(String content, String sender) {
