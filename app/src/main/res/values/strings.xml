@@ -21,4 +21,8 @@
         <item>I\'m having a hard time understanding you. Can you try to make sure you don\'t mumble?</item>
         <item>Man what are you saying?</item>
     </string-array>
+    <string name="view_past_chat">View past chats</string>
+    <string name="lblSender">Sender: </string>
+    <string name="lblDateTime">Date and Time: </string>
+    <string name="selectDate">Please select a date you would like to view past messages from </string>
 </resources>

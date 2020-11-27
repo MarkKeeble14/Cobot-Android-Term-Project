@@ -15,6 +15,8 @@ public class Message {
         this.date = date;
     }
 
+    public Message() {}
+
     @Override
     public String toString() {
         return "Message{" +

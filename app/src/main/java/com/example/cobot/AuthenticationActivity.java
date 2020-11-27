@@ -57,6 +57,15 @@ public class AuthenticationActivity extends AppCompatActivity {
             }
         });
 
+        ((Button) findViewById(R.id.oldChats)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                oldChat();
+            }
+        });
+
+
+
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
         emailField = (EditText) findViewById(R.id.email_field);
@@ -172,5 +181,16 @@ public class AuthenticationActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, ChatActivity.class);
         startActivity(intent);
+    }
+
+    public void oldChat() {
+        if (mAuth.getCurrentUser() != null) {
+            Intent i = new Intent(this, OldChatActivity.class);
+            startActivity(i);
+        } else {
+            Toast.makeText(AuthenticationActivity.this, "You are not signed in.",
+                    Toast.LENGTH_SHORT).show();
+        }
+
     }
 }

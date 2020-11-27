@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".OldChatActivity"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/selectIdText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text = "@string/selectDate"
+        />
+
+    <DatePicker
+        android:id="@+id/chatDatePicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:datePickerMode="spinner"
+        android:calendarViewShown="false"/>
+
+    <Button
+        android:id="@+id/datePickerButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_columnWeight="1"
+        android:text="go"
+        android:layout_gravity="center_vertical"
+        />
+
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content">
+        <ListView
+            android:id="@+id/msgListView"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+</LinearLayout>
