@@ -82,6 +82,13 @@ public class ChatActivity extends AppCompatActivity {
 
         boolean saveToFirebase = mAuth.getCurrentUser() != null;
         cobot.preparePrompt(saveToFirebase);
+        TextView lgad = (TextView) findViewById(R.id.logged_in_as_display);
+        if (saveToFirebase) {
+            lgad.setVisibility(View.VISIBLE);
+            lgad.setText(getString(R.string.logged_in_as) + mAuth.getCurrentUser().getEmail());
+        } else {
+            lgad.setVisibility(View.INVISIBLE);
+        }
     }
 
     public void processMessageSent(View view) {

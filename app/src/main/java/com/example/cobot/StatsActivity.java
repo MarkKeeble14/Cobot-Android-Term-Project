@@ -3,7 +3,6 @@ package com.example.cobot;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,11 +19,21 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class StatsActivity extends AppCompatActivity {
     private static final String STATS_URL = "https://api.covid19api.com/summary";
+
+    // Static string variables
+    static String totalConfirmed, newConfirmed, totalDeaths, newDeaths, totalRecovered, newRecovered;
+    static String arrayData;
+    static ArrayList<CountryData> countryDataList = new ArrayList<CountryData>();
 
     // UI Views
     private ProgressBar progressBar;
@@ -100,20 +109,18 @@ public class StatsActivity extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
-    private void handleResponse(String response) {
+    public void handleResponse(String response) {
         try {
-            // since we know, our response is in JSON Object so convert it to object
             JSONObject jsonObject = new JSONObject(response);
-            Log.d("response", jsonObject.toString());
             JSONObject globalJo = jsonObject.getJSONObject("Global");
 
             // get data from it
-            String newConfirmed = globalJo.getString("NewConfirmed");
-            String totalConfirmed = globalJo.getString("TotalConfirmed");
-            String newDeaths = globalJo.getString("NewDeaths");
-            String totalDeaths = globalJo.getString("TotalDeaths");
-            String newRecovered = globalJo.getString("NewRecovered");
-            String totalRecovered = globalJo.getString("TotalRecovered");
+            newConfirmed = globalJo.getString("NewConfirmed");
+            totalConfirmed = globalJo.getString("TotalConfirmed");
+            newDeaths = globalJo.getString("NewDeaths");
+            totalDeaths = globalJo.getString("TotalDeaths");
+            newRecovered = globalJo.getString("NewRecovered");
+            totalRecovered = globalJo.getString("TotalRecovered");
 
             // set data
             totalCasesTv.setText(totalConfirmed);
@@ -123,20 +130,72 @@ public class StatsActivity extends AppCompatActivity {
             totalRecoveredTv.setText(totalRecovered);
             newRecoveredTv.setText(newRecovered);
 
-            System.out.println("Total confirmed: " + totalConfirmed);
-            System.out.println("New confirmed: " + newConfirmed);
-            System.out.println("New deaths: " + newDeaths);
-            System.out.println("Total deaths: " + totalDeaths);
-            System.out.println("New recovered: " + newRecovered);
-            System.out.println("Total recovered: " + totalRecovered);
+            // Load data
+            JSONObject jsonObject2 = new JSONObject(response);
+            JSONArray jsonArray = jsonObject2.getJSONArray("Countries");
 
-            // hide progess
+            // Change json array to gson
+            Gson gson = new Gson();
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+                String aData = gson.toJson(jsonArray.get(i));
+                String name = parseFor("Country", aData);
+                String tc = parseFor("TotalConfirmed", aData);
+                String nc = parseFor("NewConfirmed", aData);
+                String td = parseFor("TotalDeaths", aData);
+                String nd = parseFor("NewDeaths", aData);
+                String tr = parseFor("TotalRecovered", aData);
+                String nr = parseFor("NewRecovered", aData);
+                CountryData cd = new CountryData(name.substring(1, name.length()),
+                        tc.substring(0, tc.length() - 1),
+                        nc.substring(0, nc.length() - 1),
+                        td.substring(0, td.length() - 1),
+                        nd.substring(0, nd.length() - 1),
+                        tr.substring(0, tr.length() - 1),
+                        nr.substring(0, nr.length() - 1));
+                countryDataList.add(cd);
+            }
+
+            //  hide progess
             progressBar.setVisibility(View.GONE );
-
         }
         catch (Exception e) {
             progressBar.setVisibility(View.GONE);
             Toast.makeText(StatsActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private String parseFor(String lookingFor, String parse) {
+        String res = "";
+        String track = "";
+        int trackAt = 0;
+        String lowercaseLookingFor = lookingFor.toLowerCase();
+        String lowercaseParse = parse.toLowerCase();
+        for (int i = 0; i < lowercaseParse.length(); i++) {
+            if (lowercaseParse.charAt(i) == lowercaseLookingFor.charAt(trackAt)) {
+                trackAt++;
+                track += lowercaseParse.charAt(i);
+            } else {
+                trackAt = 0;
+                track = "";
+            }
+            if ((track.length() - lowercaseLookingFor.length()) == 0) {
+                int startAt = i + 3;
+                while (lowercaseParse.charAt(startAt) != '\"' || startAt < i + 4) {
+                    res += lowercaseParse.charAt(startAt);
+                    startAt++;
+                }
+                return res;
+            }
+        }
+        return "err";
+    }
+
+    public static CountryData getCountriesData(String country) {
+        for (CountryData cd : countryDataList) {
+            if (cd.getName().equalsIgnoreCase(country))
+                return cd;
+        }
+        return null;
     }
 }

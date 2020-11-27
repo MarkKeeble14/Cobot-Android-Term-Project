@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "548658035362",
+    "firebase_url": "https://cobot-45ca1.firebaseio.com",
+    "project_id": "cobot-45ca1",
+    "storage_bucket": "cobot-45ca1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:548658035362:android:36f46e8612f37cb2ec35fb",
+        "android_client_info": {
+          "package_name": "com.example.cobot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "548658035362-5ninenuroevmvla7r8uaf6be4e6bs6nh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.cobot",
+            "certificate_hash": "0d21105485ca06513f53ac4c2d0cc8b9feeb3f26"
+          }
+        },
+        {
+          "client_id": "548658035362-ejndv6bbmmr5spmn36282kkm0l6kd2n2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCjrHg_dPemhjWN1Hs10q6jVKcdJL4qZEk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "548658035362-ejndv6bbmmr5spmn36282kkm0l6kd2n2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
