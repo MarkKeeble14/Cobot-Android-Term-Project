@@ -40,6 +40,7 @@ public class ChatActivity extends AppCompatActivity {
 
         input = (EditText) findViewById(R.id.chat_box_send_message);
 
+        //Bottom navigation
         BottomNavigationView bottomNav = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -78,6 +79,7 @@ public class ChatActivity extends AppCompatActivity {
         }
     }
 
+    //A function to process messages sent
     public void processMessageSent(View view) {
         String msg = input.getText().toString();
 
@@ -102,13 +104,16 @@ public class ChatActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    //A function to add messages to firebase
     private void addMessageToFirebase(String content, String sender) {
         String id = dRef.push().getKey();
+        //Setting current time and date for firebase key
         String curTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
         String curDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
         Message m = new Message(id, content, sender, curTime, curDate);
         Task setValueMSG = dRef.child(mAuth.getUid()).child("conversations").child(m.getDate()).child(id).setValue(m);
 
+        //On success make success toast
         setValueMSG.addOnSuccessListener(new OnSuccessListener() {
             @Override
             public void onSuccess(Object o) {
@@ -116,6 +121,7 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
+        //On failure make fail toast
         setValueMSG.addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {

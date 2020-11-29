@@ -4,13 +4,10 @@ import android.os.Bundle;
 
 import android.app.ListActivity;
 import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class ArticleSelectionActivity extends ListActivity {
@@ -20,10 +17,12 @@ public class ArticleSelectionActivity extends ListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //Create a list adapter for the list of articles
         articleList = NewsActivity.articleList;
 
         ArrayAdapter<Article> arrayAdapter = new ArticlesAdapter(this, articleList);
 
+        //If the article list doesn't exist exception
         try {
             ListView listArticles = getListView();
             listArticles.setAdapter(arrayAdapter);
@@ -32,6 +31,8 @@ public class ArticleSelectionActivity extends ListActivity {
         }
     }
 
+    //When an item is clicked, add all the components of that article into the intents
+    // then start the article details activity
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         Intent i = new Intent(this, ArticleDetailsActivity.class);

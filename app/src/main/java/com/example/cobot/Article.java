@@ -6,6 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
 public class Article implements Serializable {
+    //Constructor for the Article class
     public Article(String author, String title, String URL, String publishedAt, String content) {
         setAuthor(author);
         setTitle(title);
@@ -14,6 +15,7 @@ public class Article implements Serializable {
         setContent(content);
     }
 
+    //Getter and setter for the author of the article
     @SerializedName("author")
     @Expose
     private String author;
@@ -24,6 +26,7 @@ public class Article implements Serializable {
         this.author = author;
     }
 
+    //Getter and setter for the title of the article
     @SerializedName("title")
     @Expose
     private String title;
@@ -34,6 +37,7 @@ public class Article implements Serializable {
         this.title = title;
     }
 
+    //Getter and setter for the url of the article
     @SerializedName("url")
     @Expose
     private String url;
@@ -44,6 +48,7 @@ public class Article implements Serializable {
         this.url = url;
     }
 
+    //Getter and setter for the time the article was published at
     @SerializedName("publishedAt")
     @Expose
     private String publishedAt;
@@ -54,6 +59,7 @@ public class Article implements Serializable {
         this.publishedAt = publishedAt;
     }
 
+    //Getter and setter for the main content of the article
     @SerializedName("content")
     @Expose
     private String content;
@@ -64,6 +70,7 @@ public class Article implements Serializable {
         this.content = content;
     }
 
+    //A function to return the entire article as a string
     @Override
     public String toString() {
         return "Article{" +
