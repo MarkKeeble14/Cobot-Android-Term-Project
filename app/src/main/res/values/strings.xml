@@ -29,8 +29,8 @@
     <string name="nav_news">News</string>
     <string name="search_label">Search</string>
     <string name="empty_query_warning">Please enter a search term</string>
-    <string name="written_by">Written by </string>
-    <string name="published_on">Published on </string>
+    <string name="written_by">"Written by "</string>
+    <string name="published_on">"Published on "</string>
     <string name="failed_authentication">Authentication failed.</string>
     <string name="not_signed_in">You are not signed in.</string>
     <string name="message_added">Message added.</string>

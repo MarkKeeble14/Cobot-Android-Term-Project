@@ -47,11 +47,8 @@ public class NewsActivity extends AppCompatActivity {
     // UI Views
     private ProgressBar progressBar;
 
-    private String TAG = MainActivity.class.getSimpleName();
+    private String TAG = NewsActivity.class.getSimpleName();
 
-    public static String KEY = "&apikey=63734d6ff1b144a082ddfc7ec4df8d67";
-    public String date = null;
-    public String url = null;
     public static ArrayList<Article> articleList;
     public static ArrayList<Article> searchedArticleList;
 
@@ -175,12 +172,7 @@ public class NewsActivity extends AppCompatActivity {
                 return false;
             }
         });
-
-        Calendar c = Calendar.getInstance();
         populate();
-        c.add(Calendar.DATE, (7 * -1));
-        SimpleDateFormat curFormater = new SimpleDateFormat("yyyy/MM/dd", Locale.getDefault());
-        date = "&from=" + curFormater.format(c.getTime());
     }
 
     @Override
@@ -294,71 +286,6 @@ public class NewsActivity extends AppCompatActivity {
                 return cd;
         }
         return null;
-    }
-
-    public void processButtonPress(View v) {
-        String queries = null;
-        if ((queries = stringInput.getText().toString()).isEmpty()) {
-            Toast.makeText(NewsActivity.this, getString(R.string.empty_query_warning),
-                    Toast.LENGTH_LONG).show();
-        }
-        else {
-            url = buildURL(queries);
-            new AsyncHTTPTask().execute();
-        }
-    }
-
-    private String buildURL(String queries) {
-        String baseOfURL =  "https://newsapi.org/v2/everything?q=";
-        baseOfURL = baseOfURL.concat(queries);
-        baseOfURL = baseOfURL.concat(date);
-        baseOfURL = baseOfURL.concat(KEY);
-
-        Log.d("Full URL: ", baseOfURL);
-        Log.d(TAG, "QUERIES: " + queries + ", " + " DATE: " + date + ", KEY: " + KEY + ", FULL URL: " + baseOfURL);
-
-        return baseOfURL;
-    }
-
-    private class AsyncHTTPTask extends AsyncTask<Void, Void, Void> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected Void doInBackground(Void... arg0) {
-            HTTPHandler sh = new HTTPHandler();
-            String jsonStr = null;
-
-            // Making a request to url and getting response
-            jsonStr = sh.makeServiceCall(url);
-
-            if (jsonStr != null) {
-                articleList = parseResult(jsonStr);
-            } else {
-                Log.e(TAG, "Couldn't get json from server.");
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(getApplicationContext(),
-                                "Couldn't get json from server. Check LogCat for possible errors!",
-                                Toast.LENGTH_LONG)
-                                .show();
-                    }
-                });
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            super.onPostExecute(result);
-
-            Intent myIntent = new Intent(NewsActivity.this, ArticleSelectionActivity.class);
-            NewsActivity.this.startActivity(myIntent);
-        }
     }
 
     private void populate() {
