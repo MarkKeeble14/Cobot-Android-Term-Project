@@ -30,7 +30,6 @@ public class OldChatActivity extends AppCompatActivity {
     DatePicker date;
     Button dateButton;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

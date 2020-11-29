@@ -79,7 +79,7 @@ public class ChatActivity extends AppCompatActivity {
         }
     }
 
-    //A function to process messages sent
+    // A function to process messages sent
     public void processMessageSent(View view) {
         String msg = input.getText().toString();
 
