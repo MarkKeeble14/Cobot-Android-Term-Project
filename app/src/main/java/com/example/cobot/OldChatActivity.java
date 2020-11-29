@@ -37,6 +37,7 @@ public class OldChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_old_chat);
 
         mAuth = FirebaseAuth.getInstance();
+        //Database reference
         mDbRef = FirebaseDatabase.getInstance().getReference().child("users").child(mAuth.getUid()).child("conversations");
 
         date = findViewById(R.id.chatDatePicker);
@@ -45,6 +46,7 @@ public class OldChatActivity extends AppCompatActivity {
         messageListView = findViewById(R.id.msgListView);
         messageList = new ArrayList<Message>();
 
+        //Date picker for which date you would like to view readings
         dateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,7 +56,9 @@ public class OldChatActivity extends AppCompatActivity {
     }
 
 
+    //A function to create the array adapter of the old messages you'd like to view
     public void refreshReadings() {
+        //Creating the date key
         int day = date.getDayOfMonth();
         int month = date.getMonth();
         int year = date.getYear();
@@ -62,18 +66,20 @@ public class OldChatActivity extends AppCompatActivity {
         calendar.set(year, month, day);
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         String formatDate = sdf.format(calendar.getTime());
-        System.out.println(formatDate);
-        DatabaseReference newDbRef = mDbRef.child(formatDate);
 
+        //Creating a new database reference to read from
+        DatabaseReference newDbRef = mDbRef.child(formatDate);
 
         newDbRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                        //For each message in the snapshot, add it to teh messageList
                         Message msg = ds.getValue(Message.class);
                         messageList.add(msg);
                     }
+                    //Create a list adapter out of the messages
                     OldChatListAdapter adapter = new OldChatListAdapter(OldChatActivity.this, messageList);
                     messageListView.setAdapter(adapter);
 
@@ -83,9 +89,9 @@ public class OldChatActivity extends AppCompatActivity {
                 }
             }
 
+            //If cancelled nothing happens
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
 
