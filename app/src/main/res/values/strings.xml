@@ -20,7 +20,6 @@
         <item>Sorry! I don\'t know what you\'re asking for.</item>
         <item>Please make sure you enter something I know how to respond to!</item>
         <item>I\'m having a hard time understanding you. Can you try to make sure you don\'t mumble?</item>
-        <item>Man what are you saying?</item>
     </string-array>
     <string name="view_past_chat">View past chats</string>
     <string name="lblSender">Sender: </string>
@@ -54,4 +53,6 @@
     <string name="statistic_menu_prompt">What statistic are you curious about?:\n1: Give me everything!\n2: Total Cases\n3: New Cases\n4: Total Deaths\n5: New Deaths\n6: Total Recoveries\n7: New Recoveries\n</string>
     <string name="country_specific_prompt">What country are you curious about? (Please type in the name of a country):\n</string>
     <string name="done_with_country">Do you have more questions? (Yes/No or Y/N to answer):\n</string>
+    <string name="yes">Yes</string>
+    <string name="y">Y</string>
 </resources>

@@ -1,5 +1,8 @@
 package com.example.cobot;
 
+/*
+    A class to represent a message.
+ */
 public class Message {
     private String id;
     private String content;
@@ -7,6 +10,7 @@ public class Message {
     private String time;
     private String date;
 
+    // All parameter constructor.
     public Message(String id, String content, String sender, String time, String date) {
         this.id = id;
         this.content = content;
@@ -15,8 +19,10 @@ public class Message {
         this.date = date;
     }
 
+    // No parameter constructor
     public Message() {}
 
+    // To String
     @Override
     public String toString() {
         return "Message{" +
@@ -28,6 +34,7 @@ public class Message {
                 '}';
     }
 
+    // Getters and setters below
     public String getId() {
         return id;
     }

@@ -37,23 +37,21 @@ import java.util.Calendar;
 import java.util.Locale;
 
 public class NewsActivity extends AppCompatActivity {
+    // API URL
     private static final String STATS_URL = "https://api.covid19api.com/summary";
 
     // Static string variables
     static String totalConfirmed, newConfirmed, totalDeaths, newDeaths, totalRecovered, newRecovered;
-    static String arrayData;
     static ArrayList<CountryData> countryDataList = new ArrayList<CountryData>();
 
     // UI Views
     private ProgressBar progressBar;
 
-    private String TAG = NewsActivity.class.getSimpleName();
-
+    // Article Lists
     public static ArrayList<Article> articleList;
     public static ArrayList<Article> searchedArticleList;
 
-    EditText stringInput = null;
-
+    // Views
     ListView articleListView;
     EditText searchText;
 
@@ -67,12 +65,14 @@ public class NewsActivity extends AppCompatActivity {
         articleListView = findViewById(R.id.article_list_view);
         searchText = findViewById(R.id.search_words);
 
+        // Adds on text changed listener to the search field
         searchText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // No terms, just use all articles in the list
                 if (s.length() == 0) {
                     ArrayAdapter<Article> arrayAdapter = new ArticlesAdapter(NewsActivity.this, articleList);
                     try {
@@ -89,6 +89,7 @@ public class NewsActivity extends AppCompatActivity {
                                 i.putExtra("articlePublishDate", articleList.get(position).getPublishedAt());
                                 i.putExtra("articleContent", articleList.get(position).getContent());
 
+                                // Start the details activity
                                 startActivity(i);
                             }
                         });
@@ -96,8 +97,10 @@ public class NewsActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 } else {
+                    // There are search terms, only show the relevent articles.
                     searchedArticleList = new ArrayList<Article>();
                     for (Article art : articleList) {
+                        // Check to see if the title or content contains the search term
                         if (containsTerm(art.getTitle(), s) || containsTerm(art.getContent(), s)) {
                             searchedArticleList.add(art);
                         }
@@ -118,6 +121,7 @@ public class NewsActivity extends AppCompatActivity {
                                 i.putExtra("articlePublishDate", searchedArticleList.get(position).getPublishedAt());
                                 i.putExtra("articleContent", searchedArticleList.get(position).getContent());
 
+                                // Start details activity
                                 startActivity(i);
                             }
                         });
@@ -127,6 +131,7 @@ public class NewsActivity extends AppCompatActivity {
                 }
             }
 
+            // Check if the string text contains the CharSequence string.
             private boolean containsTerm(String text, CharSequence string) {
                 String track = "";
                 int trackAt = 0;
@@ -153,6 +158,7 @@ public class NewsActivity extends AppCompatActivity {
 
         loadHomeData();
 
+        // Navigation listener
         BottomNavigationView bottomNav = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -181,6 +187,7 @@ public class NewsActivity extends AppCompatActivity {
         loadHomeData();
     }
 
+    // Loads the api request.
     private void loadHomeData() {
         // show progress
         progressBar.setVisibility(View.VISIBLE);
@@ -206,6 +213,7 @@ public class NewsActivity extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
+    // Handles the response of the api request.
     public void handleResponse(String response) {
         try {
             JSONObject jsonObject = new JSONObject(response);
@@ -254,6 +262,8 @@ public class NewsActivity extends AppCompatActivity {
         }
     }
 
+    // Used to extract the stats for each country in order to be able to create
+    // CountryData objects, which contain the up-to-date data from the API.
     private String parseFor(String lookingFor, String parse) {
         String res = "";
         String track = "";
@@ -280,6 +290,7 @@ public class NewsActivity extends AppCompatActivity {
         return "err";
     }
 
+    // Gets the CountryData that belongs to the country with name <country>
     public static CountryData getCountriesData(String country) {
         for (CountryData cd : countryDataList) {
             if (cd.getName().equalsIgnoreCase(country))
@@ -288,6 +299,8 @@ public class NewsActivity extends AppCompatActivity {
         return null;
     }
 
+    // Adds some hard coded articles into the articles list. The reason we are hard coding these in
+    // is explained in the readme.txt at the root of our application.
     private void populate() {
         articleList = new ArrayList<Article>();
         articleList.add(new Article("Ian Holliday", "Vancouver police shut down party, issue $2,300 ticket to host for breaking COVID-19 rules",
@@ -420,33 +433,5 @@ public class NewsActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    private ArrayList<Article> parseResult(String result) {
-        JSONObject response = null;
-        ArrayList<Article> res = new ArrayList<Article>();
-
-        try {
-            response = new JSONObject(result);
-            JSONArray articles = response.optJSONArray("articles");
-
-            for (int i = 0; i < articles.length(); i++) {
-
-                JSONObject article = articles.optJSONObject(i);
-                String author = article.optString("author");
-                String title = article.optString("title");
-                String URL = article.optString("url");
-                String publishedAt = article.optString("publishedAt");
-                String content = article.optString("content");
-
-                Article curArticle = new Article(author, title, URL, publishedAt, content);
-                res.add(curArticle);
-            }
-            return res;
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        return null;
     }
 }
