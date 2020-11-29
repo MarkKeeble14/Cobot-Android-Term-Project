@@ -63,8 +63,6 @@ public class AuthenticationActivity extends AppCompatActivity {
             }
         });
 
-
-
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
         emailField = (EditText) findViewById(R.id.email_field);
