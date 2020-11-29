@@ -17,7 +17,6 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -77,8 +76,8 @@ public class AuthenticationActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch(item.getItemId()) {
-                    case R.id.nav_home:
-                        Intent iHome = new Intent(AuthenticationActivity.this, StatsActivity.class);
+                    case R.id.nav_news:
+                        Intent iHome = new Intent(AuthenticationActivity.this, NewsActivity.class);
                         startActivity(iHome);
                         break;
                     case R.id.nav_chat:
@@ -116,15 +115,12 @@ public class AuthenticationActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d("auth", "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
                             goToChat();
                         } else {
                             // If sign in fails, display a message to the user.
-                            Log.w("auth", "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(AuthenticationActivity.this, "Authentication failed.",
+                            Toast.makeText(AuthenticationActivity.this, R.string.failed_authentication,
                                     Toast.LENGTH_SHORT).show();
                             updateUI(null);
                         }
@@ -141,15 +137,12 @@ public class AuthenticationActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d("auth", "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
                             goToChat();
                         } else {
                             // If sign in fails, display a message to the user.
-                            Log.w("auth", "signInWithEmail:failure", task.getException());
-                            Toast.makeText(AuthenticationActivity.this, "Authentication failed.",
+                            Toast.makeText(AuthenticationActivity.this, R.string.failed_authentication,
                                     Toast.LENGTH_SHORT).show();
                             updateUI(null);
                         }
@@ -188,7 +181,7 @@ public class AuthenticationActivity extends AppCompatActivity {
             Intent i = new Intent(this, OldChatActivity.class);
             startActivity(i);
         } else {
-            Toast.makeText(AuthenticationActivity.this, "You are not signed in.",
+            Toast.makeText(AuthenticationActivity.this, R.string.not_signed_in,
                     Toast.LENGTH_SHORT).show();
         }
 

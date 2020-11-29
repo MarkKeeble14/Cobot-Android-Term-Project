@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch(item.getItemId()) {
-                    case R.id.nav_home:
+                    case R.id.nav_news:
                         break;
                     case R.id.nav_chat:
                         Intent iChat = new Intent(MainActivity.this, ChatActivity.class);

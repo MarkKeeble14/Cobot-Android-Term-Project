@@ -2,37 +2,24 @@ package com.example.cobot;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.widget.TextViewCompat;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -58,8 +45,8 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch(item.getItemId()) {
-                    case R.id.nav_home:
-                        Intent iMain = new Intent(ChatActivity.this, StatsActivity.class);
+                    case R.id.nav_news:
+                        Intent iMain = new Intent(ChatActivity.this, NewsActivity.class);
                         startActivity(iMain);
                         break;
                     case R.id.nav_chat:
@@ -125,7 +112,7 @@ public class ChatActivity extends AppCompatActivity {
         setValueMSG.addOnSuccessListener(new OnSuccessListener() {
             @Override
             public void onSuccess(Object o) {
-                Toast.makeText(ChatActivity.this,"Message added.",Toast.LENGTH_LONG).show();
+                Toast.makeText(ChatActivity.this, R.string.message_added,Toast.LENGTH_LONG).show();
             }
         });
 
@@ -133,7 +120,7 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Toast.makeText(ChatActivity.this,
-                        "Unable to save message.\n" + e.toString(),
+                        getString(R.string.unable_to_save_msg) + e.toString(),
                         Toast.LENGTH_SHORT).show();
             }
         });

@@ -16,10 +16,10 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Random;
 
-public class Cobot extends StatsActivity {
+public class Cobot extends NewsActivity {
     Random r = new Random();
-    final int MIN_RESPONSE_TIME = 100;
-    final int MAX_RESPONSE_TIME = 2000;
+    final int MIN_RESPONSE_TIME = 0;
+    final int MAX_RESPONSE_TIME = 1;
 
     private FirebaseAuth mAuth;
     private DatabaseReference dRef;
@@ -35,16 +35,21 @@ public class Cobot extends StatsActivity {
     // Stage 3 = Asking if the user is done with the current country
     private int stage = 0;
 
-    private String menuPrompt = "What would you like to know about?:\n1: Global Statistics\n2: Country Specific Statistics\n";
-    private String statMenuPrompt = "What statistic are you curious about?:\n1: Give me everything!\n2: Total Cases\n3: New Cases\n4: Total Deaths\n5: New Deaths\n6: Total Recoveries\n7: New Recoveries\n";
-    private String countrySpecificMenuPrompt = "What country are you curious about? (Please type in the name of a country):\n";
-    private String doneWithData = "Do you have more questions?\n";
+    private String menuPrompt;
+    private String statMenuPrompt;
+    private String countrySpecificMenuPrompt;
+    private String doneWithData;
 
     public Cobot(Context context, LinearLayout ll) {
         this.context = context;
         this.ll = ll;
         dRef = FirebaseDatabase.getInstance().getReference("users");
         mAuth = FirebaseAuth.getInstance();
+
+        menuPrompt = context.getResources().getString(R.string.menu_prompt);
+        statMenuPrompt = context.getResources().getString(R.string.statistic_menu_prompt);;
+        countrySpecificMenuPrompt = context.getResources().getString(R.string.country_specific_prompt);;
+        doneWithData = context.getResources().getString(R.string.done_with_country);;
     }
 
     public void giveResponseToMessage(final String x, final boolean saveToFirebase) {
@@ -124,7 +129,6 @@ public class Cobot extends StatsActivity {
 
             // Get response according to stat given
             response = getResult(stat, currentTargetCountry);
-            Log.e("Stage 2 Response: ", stat + ", " + response);
             stage = 3;
         } else if (stage == 2) {
             currentTargetCountry = x;
@@ -159,65 +163,62 @@ public class Cobot extends StatsActivity {
             if (saveToFirebase)
                 addMessageToFirebase(doneWithData, context.getString(R.string.cobot_name));
         }
-        Log.e("Stage", String.valueOf(stage));
     }
 
     private String giveErrorResponse() {
         String[] responses = context.getResources().getStringArray(R.array.error_responses);
-        Log.d("size of response", String.valueOf(responses.length));
 
         int i = r.nextInt(responses.length);
         return responses[i];
     }
 
     private String retrieveGlobalData() {
-        String globalData = "Total Confirmed: " + totalConfirmed + "\n"
-                + "New Confirmed: " + newConfirmed + "\n"
-                + "Total Deaths: " + totalDeaths + "\n"
-                + "New Deaths:  " + newDeaths + "\n"
-                + "Total Recovered: " + totalRecovered + "\n"
-                + "New Recovered: " + newRecovered;
+        String globalData = context.getResources().getString(R.string.total_confirmed_label) + totalConfirmed + "\n"
+                + context.getResources().getString(R.string.new_confirmed_label) + newConfirmed + "\n"
+                + context.getResources().getString(R.string.total_deaths_label) + totalDeaths + "\n"
+                + context.getResources().getString(R.string.new_deaths_label) + newDeaths + "\n"
+                + context.getResources().getString(R.string.total_recovered_label) + totalRecovered + "\n"
+                + context.getResources().getString(R.string.new_recovered_label) + newRecovered;
         return globalData;
     }
 
     private String getResult(String stat, String country) {
-        Log.e("Country & Stat: ", stat + ", " + country);
-        if (country.equalsIgnoreCase("global")) {
-            if (stat.equalsIgnoreCase("all")) {
+        if (country.equalsIgnoreCase(context.getResources().getString(R.string.global))) {
+            if (stat.equalsIgnoreCase(context.getResources().getString(R.string.all))) {
                 return retrieveGlobalData();
-            } else if (stat.equalsIgnoreCase("total_cases")) {
-                return "Total Cases: " + totalConfirmed + "\n";
-            } else if (stat.equalsIgnoreCase("new_cases")) {
-                return "New Cases: " + newConfirmed + "\n";
-            } else if (stat.equalsIgnoreCase("total_deaths")) {
-                return "Total Deaths: " + totalDeaths + "\n";
-            } else if (stat.equalsIgnoreCase("new_deaths")) {
-                return "New Deaths: " + newDeaths + "\n";
-            } else if (stat.equalsIgnoreCase("total_recoveries")) {
-                return "Total Recoveries: " + totalRecovered + "\n";
-            } else if (stat.equalsIgnoreCase("new_recoveries")) {
-                return "New Recoveries: " + newRecovered + "\n";
+            } else if (stat.equalsIgnoreCase(context.getResources().getString(R.string.total_cases))) {
+                return context.getResources().getString(R.string.total_confirmed_label) + totalConfirmed + "\n";
+            } else if (stat.equalsIgnoreCase(context.getResources().getString(R.string.new_cases))) {
+                return context.getResources().getString(R.string.new_confirmed_label) + newConfirmed + "\n";
+            } else if (stat.equalsIgnoreCase(context.getResources().getString(R.string.total_deaths))) {
+                return context.getResources().getString(R.string.total_deaths_label) + totalDeaths + "\n";
+            } else if (stat.equalsIgnoreCase(context.getResources().getString(R.string.new_deaths))) {
+                return context.getResources().getString(R.string.new_deaths_label) + newDeaths + "\n";
+            } else if (stat.equalsIgnoreCase(context.getResources().getString(R.string.total_recoveries))) {
+                return context.getResources().getString(R.string.total_recovered_label) + totalRecovered + "\n";
+            } else if (stat.equalsIgnoreCase(context.getResources().getString(R.string.new_recoveries))) {
+                return context.getResources().getString(R.string.new_recovered_label) + newRecovered + "\n";
             } else {
-                return "Wack";
+                return context.getResources().getString(R.string.err);
             }
         } else {
             CountryData data = getCountriesData(country);
-            if (stat.equalsIgnoreCase("all")) {
+            if (stat.equalsIgnoreCase(context.getResources().getString(R.string.all))) {
                 return retrieveCountryData(country);
-            } else if (stat.equalsIgnoreCase("total_cases")) {
-                return "Total Cases: " + data.getTotalCases() + "\n";
-            } else if (stat.equalsIgnoreCase("new_cases")) {
-                return "New Cases: " + data.getNewCases() + "\n";
-            } else if (stat.equalsIgnoreCase("total_deaths")) {
-                return "Total Deaths: " + data.getTotalDeaths() + "\n";
-            } else if (stat.equalsIgnoreCase("new_deaths")) {
-                return "New Deaths: " + data.getNewDeaths() + "\n";
-            } else if (stat.equalsIgnoreCase("total_recoveries")) {
-                return "Total Recoveries: " + data.getTotalRecovered() + "\n";
-            } else if (stat.equalsIgnoreCase("new_recoveries")) {
-                return "New Recoveries: " + data.getNewRecovered() + "\n";
+            } else if (stat.equalsIgnoreCase(context.getResources().getString(R.string.total_cases))) {
+                return context.getResources().getString(R.string.total_confirmed_label) + country + " - " + data.getTotalCases() + "\n";
+            } else if (stat.equalsIgnoreCase(context.getResources().getString(R.string.new_cases))) {
+                return context.getResources().getString(R.string.new_confirmed_label) + country + " - " + data.getNewCases() + "\n";
+            } else if (stat.equalsIgnoreCase(context.getResources().getString(R.string.total_deaths))) {
+                return context.getResources().getString(R.string.total_deaths_label) + country + " - " + data.getTotalDeaths() + "\n";
+            } else if (stat.equalsIgnoreCase(context.getResources().getString(R.string.new_deaths))) {
+                return context.getResources().getString(R.string.new_deaths_label) + country + " - " + data.getNewDeaths() + "\n";
+            } else if (stat.equalsIgnoreCase(context.getResources().getString(R.string.total_recoveries))) {
+                return context.getResources().getString(R.string.total_recovered_label) + country + " - " + data.getTotalRecovered() + "\n";
+            } else if (stat.equalsIgnoreCase(context.getResources().getString(R.string.new_recoveries))) {
+                return context.getResources().getString(R.string.new_recovered_label) + country + " - "+ data.getNewRecovered() + "\n";
             } else {
-                return "Wack";
+                return context.getResources().getString(R.string.err);
             }
         }
     }
@@ -236,12 +237,12 @@ public class Cobot extends StatsActivity {
 
     private String retrieveCountryData(String country) {
         CountryData data = getCountriesData(country);
-        String globalData = "Total Confirmed: " + data.getTotalCases() + "\n"
-                + "New Confirmed: " + data.getNewCases() + "\n"
-                + "Total Deaths: " + data.getTotalDeaths() + "\n"
-                + "New Deaths:  " + data.getNewDeaths() + "\n"
-                + "Total Recovered: " + data.getTotalRecovered() + "\n"
-                + "New Recovered: " + data.getNewRecovered();
+        String globalData = context.getResources().getString(R.string.total_confirmed_label) + data.getTotalCases() + "\n"
+                + context.getResources().getString(R.string.new_confirmed_label) + data.getNewCases() + "\n"
+                + context.getResources().getString(R.string.total_deaths_label) + data.getTotalDeaths() + "\n"
+                + context.getResources().getString(R.string.new_deaths_label) + data.getNewDeaths() + "\n"
+                + context.getResources().getString(R.string.total_recovered_label) + data.getTotalRecovered() + "\n"
+                + context.getResources().getString(R.string.new_recovered_label) + data.getNewRecovered();
         return globalData;
     }
 }
