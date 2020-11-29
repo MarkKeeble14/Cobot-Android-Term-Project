@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -104,6 +103,7 @@ public class AuthenticationActivity extends AppCompatActivity {
             accDisplay.setText(R.string.no_user_signed_in);
     }
 
+    //Function to create an account to firebase
     private void createAccount() {
         String email = emailField.getText().toString();
         String password = passwordField.getText().toString();
@@ -126,6 +126,7 @@ public class AuthenticationActivity extends AppCompatActivity {
                 });
     }
 
+    //A function for signing in with email and password
     private void signInWithEmailAndPassword() {
         String email = emailField.getText().toString();
         String password = passwordField.getText().toString();
@@ -148,6 +149,7 @@ public class AuthenticationActivity extends AppCompatActivity {
                 });
     }
 
+    //A function to get user data, unused
     private void getUserData() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
@@ -166,6 +168,7 @@ public class AuthenticationActivity extends AppCompatActivity {
         }
     }
 
+    //When the chat button is clicked, will take you to the chat activity
     public void goToChat() {
         emailField.setText("");
         passwordField.setText("");
@@ -174,6 +177,7 @@ public class AuthenticationActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    //When the old chat button is clicked, will take you to the old chat activity
     public void oldChat() {
         if (mAuth.getCurrentUser() != null) {
             Intent i = new Intent(this, OldChatActivity.class);
@@ -182,6 +186,5 @@ public class AuthenticationActivity extends AppCompatActivity {
             Toast.makeText(AuthenticationActivity.this, R.string.not_signed_in,
                     Toast.LENGTH_SHORT).show();
         }
-
     }
 }
